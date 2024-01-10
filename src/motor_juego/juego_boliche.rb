@@ -29,6 +29,25 @@ class JuegoBoliche
     @frames.each_with_index { |frame, numero| frame.imprimir_resultados_frame(numero + 1) }
   end
 
+  def efectuar_tiros_frame(frame, tiros)
+    tiros.each { |tiro| frame.efectuar_tiro_predeterminado(tiro) }
+    frame.puntuacion_total += @puntuacion_global
+    @puntuacion_global = frame.puntuacion_total
+    frame
+  end
+
+  def predefinir_tiros!(matriz_tiros)
+    return if @frames.length != matriz_tiros.length
+
+    @frames.zip(matriz_tiros).each do |frame|
+      frame[0].predefinir_frame(frame[1])
+      frame[0].puntuacion_total += @puntuacion_global
+      @puntuacion_global = frame[0].puntuacion_total
+    end
+
+    agregar_bonificaciones
+  end
+
   public
 
   def jugar_partida
@@ -40,5 +59,12 @@ class JuegoBoliche
 
     agregar_bonificaciones
     imprimir_resultados
+  rescue StandardError => e
+    puts 'Un error ha ocurrido durante la partida.'
+    puts e.message
+  end
+
+  def puntuacion_final
+    @frames.last.puntuacion_total
   end
 end

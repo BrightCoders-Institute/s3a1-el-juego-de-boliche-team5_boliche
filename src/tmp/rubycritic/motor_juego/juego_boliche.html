@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../overview.html"><img src="../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Never committed
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>motor_juego /</small> juego_boliche.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating b big">
+              B
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">70</span><small> lines of codes</small></div>
+              <div><span class="metric">7</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">8.8</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">61.41</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                10
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+require_relative &#39;../frame/frame&#39;
+require_relative &#39;../frame/ultimo_frame&#39;
+
+# Clase para gestionar el
+# funcionamiento del Juego del Boliche.
+class JuegoBoliche
+  def initialize
+    @frames = Array.new(9) { Frame.new }
+    @frames.push(UltimoFrame.new)
+    @puntuacion_global = 0
+  end
+
+  private
+
+  def agregar_bonificaciones<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>JuegoBoliche#agregar_bonificaciones has approx 6 statements</span>          </div>  </li></ol>
+    bonificaciones_acumuladas = 0
+    conjunto_total_tiros = @frames.map(&amp;:tiros)
+
+    @frames = @frames.each_with_index.map do |frame, numero|
+      frame.puntuacion_total += bonificaciones_acumuladas
+      bonificaciones_acumuladas += frame.agregar_bonificaciones(conjunto_total_tiros[numero + 1, 2].flatten[0, 2])
+      frame
+    end
+  end
+
+  def imprimir_resultados
+    @frames.each_with_index { |frame, numero| frame.imprimir_resultados_frame(numero + 1) }
+  end
+
+  def efectuar_tiros_frame(frame, tiros)
+    tiros.each { |tiro| frame.efectuar_tiro_predeterminado(tiro) }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>JuegoBoliche#efectuar_tiros_frame refers to 'frame' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L33" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L34" class="js-smell-location">1</a>                  <a href="juego_boliche.html#L35" class="js-smell-location">2</a>                  </div>  </li></ol>
+    frame.puntuacion_total += @puntuacion_global<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#efectuar_tiros_frame calls 'frame.puntuacion_total' 2 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L34" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L35" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>JuegoBoliche#efectuar_tiros_frame refers to 'frame' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L33" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L34" class="js-smell-location">1</a>                  <a href="juego_boliche.html#L35" class="js-smell-location">2</a>                  </div>  </li></ol>
+    @puntuacion_global = frame.puntuacion_total<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#efectuar_tiros_frame calls 'frame.puntuacion_total' 2 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L34" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L35" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>JuegoBoliche#efectuar_tiros_frame refers to 'frame' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L33" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L34" class="js-smell-location">1</a>                  <a href="juego_boliche.html#L35" class="js-smell-location">2</a>                  </div>  </li></ol>
+    frame
+  end
+
+  def predefinir_tiros!(matriz_tiros)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Missing-Safe-Method.md" target="_blank"><b>MissingSafeMethod</b></a>        </span>      </div>      <span>JuegoBoliche has missing safe method 'predefinir_tiros!'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>JuegoBoliche#predefinir_tiros! has approx 6 statements</span>          </div>  </li></ol>
+    return if @frames.length != matriz_tiros.length
+
+    @frames.zip(matriz_tiros).each do |frame|
+      frame[0].predefinir_frame(frame[1])<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#predefinir_tiros! calls 'frame[0]' 3 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L43" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L44" class="js-smell-location">1</a>                  <a href="juego_boliche.html#L45" class="js-smell-location">2</a>                  </div>  </li></ol>
+      frame[0].puntuacion_total += @puntuacion_global<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#predefinir_tiros! calls 'frame[0]' 3 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L43" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L44" class="js-smell-location">1</a>                  <a href="juego_boliche.html#L45" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#predefinir_tiros! calls 'frame[0].puntuacion_total' 2 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L44" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L45" class="js-smell-location">1</a>                  </div>  </li></ol>
+      @puntuacion_global = frame[0].puntuacion_total<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#predefinir_tiros! calls 'frame[0]' 3 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L43" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L44" class="js-smell-location">1</a>                  <a href="juego_boliche.html#L45" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#predefinir_tiros! calls 'frame[0].puntuacion_total' 2 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L44" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L45" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+
+    agregar_bonificaciones
+  end
+
+  public
+
+  def jugar_partida<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>JuegoBoliche#jugar_partida has approx 9 statements</span>          </div>  </li></ol>
+    @frames.each do |frame|
+      frame.jugar_frame
+      frame.puntuacion_total += @puntuacion_global<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#jugar_partida calls 'frame.puntuacion_total' 2 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L56" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L57" class="js-smell-location">1</a>                  </div>  </li></ol>
+      @puntuacion_global = frame.puntuacion_total<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>JuegoBoliche#jugar_partida calls 'frame.puntuacion_total' 2 times</span>              <span>Locations:</span>                  <a href="juego_boliche.html#L56" class="js-smell-location">0</a>                  <a href="juego_boliche.html#L57" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+
+    agregar_bonificaciones
+    imprimir_resultados
+  rescue StandardError =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>JuegoBoliche#jugar_partida has the variable name 'e'</span>          </div>  </li></ol>
+    puts &#39;Un error ha ocurrido durante la partida.&#39;
+    puts e.message
+  end
+
+  def puntuacion_final
+    @frames.last.puntuacion_total
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../assets/javascripts/application.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

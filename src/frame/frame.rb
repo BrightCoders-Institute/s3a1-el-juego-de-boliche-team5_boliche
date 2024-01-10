@@ -7,8 +7,7 @@ require_relative '../tiro/spare'
 # Clase para definir las características
 # de un frame del Juego del Boliche.
 class Frame
-  attr_accessor :puntuacion_total
-  attr_reader :tiros
+  attr_accessor :puntuacion_total, :tiros
 
   def initialize
     @cantidad_maxima_tiros = 2
@@ -56,12 +55,26 @@ class Frame
     @tiros.last.class::FINALIZAR_FRAME
   end
 
+  def efectuar_tiro_predeterminado(puntaje_tiro)
+    @tiros.push(determinar_spare_strike_o_tiro_normal(puntaje_tiro))
+    @tiros.last.class::FINALIZAR_FRAME
+  end
+
   public
 
   def jugar_frame
     @cantidad_maxima_tiros.times do
       break if efectuar_tiro
     end
+    @puntuacion_total = calcular_puntaje_frame
+  end
+
+  def predefinir_frame(tiros)
+    if tiros.length > @cantidad_maxima_tiros || tiros.sum > 10
+      raise ArgumentError, 'El listado de tiros especificados no es válido'
+    end
+
+    tiros.each { |tiro| efectuar_tiro_predeterminado(tiro) }
     @puntuacion_total = calcular_puntaje_frame
   end
 

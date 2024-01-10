@@ -50,6 +50,15 @@ class UltimoFrame < Frame
     @puntuacion_total = calcular_puntaje_frame
   end
 
+  def predefinir_frame(tiros)
+    if !(2..3).include?(tiros.length) || tiros.sum > (tiros.length <= 2 ? 10 : 30)
+      raise ArgumentError, 'El listado de tiros especificados no es válido'
+    end
+
+    tiros.each { |tiro| efectuar_tiro_predeterminado(tiro) }
+    @puntuacion_total = calcular_puntaje_frame
+  end
+
   def agregar_bonificaciones(_lista_tiros_posteriores)
     0
   end
