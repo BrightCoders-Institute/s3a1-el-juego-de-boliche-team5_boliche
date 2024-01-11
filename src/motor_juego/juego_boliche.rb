@@ -39,6 +39,7 @@ class JuegoBoliche
   def predefinir_tiros!(matriz_tiros)
     return if @frames.length != matriz_tiros.length
 
+    @puntuacion_global = 0
     @frames.zip(matriz_tiros).each do |frame|
       frame[0].predefinir_frame(frame[1])
       frame[0].puntuacion_total += @puntuacion_global
@@ -61,7 +62,7 @@ class JuegoBoliche
     imprimir_resultados
   rescue StandardError => e
     puts 'Un error ha ocurrido durante la partida.'
-    puts e.message
+    puts e.full_message
   end
 
   def puntuacion_final

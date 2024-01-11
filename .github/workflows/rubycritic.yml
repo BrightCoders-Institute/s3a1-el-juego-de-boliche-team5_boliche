@@ -13,11 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+
       - name: Install rubycritic
         run: gem install rubycritic
 
       - name: RubyCritic App
-        run: mkdir -p ${{ runner.temp }}/rubycritic && rubycritic --no-browser -p ${{ runner.temp }}/rubycritic/rubycritic-app -s 90 app config lib
+        run: mkdir -p ${{ runner.temp }}/rubycritic && rubycritic --no-browser -p ${{ runner.temp }}/rubycritic/rubycritic-app -s 90 src app config lib
 
       - name: RubyCritic on Tests
         run: mkdir -p ${{ runner.temp }}/rubycritic && rubycritic --no-browser -p ${{ runner.temp }}/rubycritic/rubycritic-app -s 65 spec test

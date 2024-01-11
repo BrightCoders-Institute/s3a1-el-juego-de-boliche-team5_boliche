@@ -74,6 +74,7 @@ class Frame
       raise ArgumentError, 'El listado de tiros especificados no es válido'
     end
 
+    @tiros.clear
     tiros.each { |tiro| efectuar_tiro_predeterminado(tiro) }
     @puntuacion_total = calcular_puntaje_frame
   end
