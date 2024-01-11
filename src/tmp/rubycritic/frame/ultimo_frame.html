@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">63</span><small> lines of codes</small></div>
+              <div><span class="metric">66</span><small> lines of codes</small></div>
               <div><span class="metric">7</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">7.6</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">8.1</span><small> complexity/method</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">53.23</span><small> complexity</small></div>
+              <div><span class="metric">56.93</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -149,10 +149,13 @@ class UltimoFrame &lt; Frame<ol class="nocode errors smells">  <li>    <div clas
     @puntuacion_total = calcular_puntaje_frame
   end
 
-  def predefinir_frame(tiros)
-    return unless (2..3).include?(tiros.length) || tiros.sum &gt; (tiros.length &lt;= 2 ? 10 : 20)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>UltimoFrame#predefinir_frame calls 'tiros.length' 2 times</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>UltimoFrame#predefinir_frame refers to 'tiros' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="ultimo_frame.html#L54" class="js-smell-location">0</a>                  <a href="ultimo_frame.html#L56" class="js-smell-location">1</a>                  </div>  </li></ol>
+  def predefinir_frame(tiros)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>UltimoFrame#predefinir_frame has approx 6 statements</span>          </div>  </li></ol>
+    if !(2..3).include?(tiros.length) || tiros.sum &gt; (tiros.length &lt;= 2 ? 10 : 30)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>UltimoFrame#predefinir_frame calls 'tiros.length' 2 times</span>          </div>  </li></ol>
+      raise ArgumentError, &#39;El listado de tiros especificados no es válido&#39;
+    end
 
-    tiros.each { |tiro| efectuar_tiro_predeterminado(tiro) }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>UltimoFrame#predefinir_frame refers to 'tiros' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="ultimo_frame.html#L54" class="js-smell-location">0</a>                  <a href="ultimo_frame.html#L56" class="js-smell-location">1</a>                  </div>  </li></ol>
+    @tiros.clear
+    tiros.each { |tiro| efectuar_tiro_predeterminado(tiro) }
     @puntuacion_total = calcular_puntaje_frame
   end
 
